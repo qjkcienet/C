@@ -1,0 +1,32 @@
+public class ArrayUtil {
+    public static String join(Object[] objAry, String delimiter, String nil,
+            Method mth, Object... args) throws IllegalArgumentException,
+            IllegalAccessException, InvocationTargetException {
+        String retStr = null;
+        if (objAry != null) {
+            StringBuilder retBuf = new StringBuilder();
+            boolean isFirst = true;
+            for (Object obj : objAry) {
+                if (obj != null && mth != null) {
+                    obj = mth.invoke(obj, args);
+                }
+                if (obj == null) {
+                    if (nil == null) {
+                        continue;
+                    } else {
+                        obj = nil;
+                    }
+                }
+                if (isFirst) {
+                    retBuf.append(obj);
+                    isFirst = false;
+                } else {
+                    retBuf.append(delimiter).append(obj);
+                }
+            }
+            retStr = retBuf.toString();
+        }
+        return retStr;
+    }
+}
+
